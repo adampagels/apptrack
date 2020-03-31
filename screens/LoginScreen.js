@@ -12,14 +12,21 @@ import * as firebase from "firebase";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [errorMessage, setError] = useState(null);
+
+  const handleLogin = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(error => setError(error.message));
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.greetingMessage}>Welcome Back</Text>
 
-      <View style={styles.errorMessage}>
-        {error && <Text style={styles.errorMessage}>{error}</Text>}
+      <View style={styles.error}>
+        {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
       </View>
 
       <View style={styles.form}>
@@ -36,13 +43,14 @@ export default function Login() {
           <Text style={styles.inputTitle}>Password</Text>
           <TextInput
             style={styles.input}
+            secureTextEntry
             autoCapitalize="none"
             onChangeText={password => setPassword(password)}
             value={password}
           ></TextInput>
         </View>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
@@ -60,7 +68,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  errorMessage: {
+  error: {
     color: "#5271FF"
   },
   greetingMessage: {
