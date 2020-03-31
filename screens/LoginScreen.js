@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   View,
@@ -7,14 +7,19 @@ import {
   TextInput,
   TouchableOpacity
 } from "react-native";
+import * as firebase from "firebase";
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+
   return (
     <View style={styles.container}>
       <Text style={styles.greetingMessage}>Welcome Back</Text>
 
       <View style={styles.errorMessage}>
-        <Text>Error</Text>
+        {error && <Text style={styles.errorMessage}>{error}</Text>}
       </View>
 
       <View style={styles.form}>
@@ -33,7 +38,7 @@ export default function Login() {
 
       <TouchableOpacity style={styles.signUpMessageWrapper}>
         <Text style={{ color: "#414959", fontSize: 13 }}>
-          New to AppTrack?{" "}
+          New to AppTrack?
           <Text style={{ color: "#5271FF", fontWeight: "500" }}> Sign Up </Text>
         </Text>
       </TouchableOpacity>
@@ -45,7 +50,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  errorMessage: {},
+  errorMessage: {
+    color: "#5271FF"
+  },
   greetingMessage: {
     fontSize: 18,
     marginTop: 32,
