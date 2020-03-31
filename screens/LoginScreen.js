@@ -24,12 +24,22 @@ export default function Login() {
 
       <View style={styles.form}>
         <View>
-          <Text style={styles.inputTitle}>Email Address</Text>
-          <TextInput style={styles.input} autoCapitalize="none"></TextInput>
+          <Text style={styles.inputTitle}>Email</Text>
+          <TextInput
+            style={styles.input}
+            autoCapitalize="none"
+            onChangeText={email => setEmail(email)}
+            value={email}
+          ></TextInput>
         </View>
         <View style={styles.passwordWrapper}>
           <Text style={styles.inputTitle}>Password</Text>
-          <TextInput style={styles.input} autoCapitalize="none"></TextInput>
+          <TextInput
+            style={styles.input}
+            autoCapitalize="none"
+            onChangeText={password => setPassword(password)}
+            value={password}
+          ></TextInput>
         </View>
       </View>
       <TouchableOpacity style={styles.button}>
