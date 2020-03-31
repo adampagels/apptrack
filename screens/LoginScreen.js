@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 
-export default function Login() {
+export default function LoginScreen(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setError] = useState(null);
@@ -19,6 +19,10 @@ export default function Login() {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .catch(error => setError(error.message));
+  };
+
+  const navigateToRegisterScreen = () => {
+    props.navigation.navigate("Register");
   };
 
   return (
@@ -54,7 +58,10 @@ export default function Login() {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.signUpMessageWrapper}>
+      <TouchableOpacity
+        style={styles.signUpMessageWrapper}
+        onPress={navigateToRegisterScreen}
+      >
         <Text style={{ color: "#414959", fontSize: 13 }}>
           New to AppTrack?
           <Text style={{ color: "#5271FF", fontWeight: "500" }}> Sign Up </Text>
