@@ -14,9 +14,17 @@ export default function HomeScreen() {
     setDisplayName(displayName);
   }, []);
 
+  const logOutUser = () => {
+    firebase.auth().signOut();
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
+      <Text>Hello {email}!</Text>
+
+      <TouchableOpacity onPress={logOutUser}>
+        <Text>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 }
