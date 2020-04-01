@@ -15,6 +15,18 @@ export default function RegisterScreen(props) {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const handleRegister = () => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        return userCredentials.user.updateProfile({
+          displayName: name
+        });
+      })
+      .catch(error => setErrorMessage(error.message));
+  };
+
   const navigateToLoginScreen = () => {
     props.navigation.navigate("Login");
   };
@@ -57,8 +69,8 @@ export default function RegisterScreen(props) {
           ></TextInput>
         </View>
       </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
