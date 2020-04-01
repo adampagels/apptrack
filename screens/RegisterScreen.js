@@ -9,11 +9,15 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 
-export default function RegisterScreen() {
+export default function RegisterScreen(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const navigateToLoginScreen = () => {
+    props.navigation.navigate("Login");
+  };
 
   return (
     <View style={styles.container}>
@@ -30,7 +34,7 @@ export default function RegisterScreen() {
             style={styles.input}
             autoCapitalize="none"
             onChangeText={name => setName(name)}
-            value={email}
+            value={name}
           ></TextInput>
         </View>
         <View style={{ marginTop: 32 }}>
@@ -57,10 +61,13 @@ export default function RegisterScreen() {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.signUpMessageWrapper}>
+      <TouchableOpacity
+        style={styles.signUpMessageWrapper}
+        onPress={navigateToLoginScreen}
+      >
         <Text style={{ color: "#414959", fontSize: 13 }}>
-          New to AppTrack?
-          <Text style={{ color: "#5271FF", fontWeight: "500" }}> Sign Up </Text>
+          Already signed up?
+          <Text style={{ color: "#5271FF", fontWeight: "500" }}> Login </Text>
         </Text>
       </TouchableOpacity>
     </View>
