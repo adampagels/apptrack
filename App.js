@@ -28,39 +28,70 @@ if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
-const AppTabNavigator = createBottomTabNavigator(
+const AppContainer = createStackNavigator(
   {
-    Home: {
-      screen: HomeScreen,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-home" size={24} color={tintColor} />
-        )
+    default: createBottomTabNavigator(
+      {
+        Home: {
+          screen: HomeScreen,
+          navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+              <Ionicons name="ios-home" size={24} color={tintColor} />
+            )
+          }
+        },
+        AddJob: {
+          screen: AddJobScreen,
+          navigationOptions: {
+            tabBarIcon: ({}) => (
+              <Ionicons
+                name="ios-add-circle"
+                size={50}
+                color={"#5271FF"}
+                style={{
+                  shadowColor: "#E9446A",
+                  shadowOffset: {
+                    width: 0,
+                    height: 0,
+                    shadowRadius: 10,
+                    shadowOpacity: 0.4
+                  }
+                }}
+              />
+            )
+          }
+        },
+        Profile: {
+          screen: ProfileScreen,
+          navigationOptions: {
+            tabBarIcon: ({ tintColor }) => (
+              <Ionicons name="ios-person" size={24} color={tintColor} />
+            )
+          }
+        }
+      },
+      {
+        defaultNavigationOptions: {
+          tabBarOnPress: ({ navigation, defaultHandler }) => {
+            navigation.state.key === "AddJob"
+              ? navigation.navigate("addjobModal")
+              : defaultHandler();
+          }
+        },
+        tabBarOptions: {
+          activeTintColor: "#161F3D",
+          inactiveTintColor: "#B8BBC4",
+          showLabel: false
+        }
       }
-    },
-    "Add Job": {
-      screen: AddJobScreen,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-add-circle" size={24} color={tintColor} />
-        )
-      }
-    },
-    Profile: {
-      screen: ProfileScreen,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => (
-          <Ionicons name="ios-person" size={24} color={tintColor} />
-        )
-      }
+    ),
+    addjobModal: {
+      screen: AddJobScreen
     }
   },
   {
-    tabBarOptions: {
-      activeTintColor: "#5271FF",
-      inactiveTintColor: "#B8BBC4",
-      showLabel: false
-    }
+    mode: "modal",
+    headerMode: "none"
   }
 );
 
@@ -73,7 +104,7 @@ export default createAppContainer(
   createSwitchNavigator(
     {
       Loading: LoadingScreen,
-      App: AppTabNavigator,
+      App: AppContainer,
       Auth: AuthStack
     },
     {
