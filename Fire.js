@@ -25,27 +25,13 @@ class Fire {
     }
   }
 
-  addJob = (
-    companyName,
-    jobTitle,
-    wage,
-    location,
-    requirements,
-    benefits,
-    remote,
-    interview,
-    extraNotes
-  ) => {
+  addJob = (companyName, jobTitle, wage, location, interview) => {
     this.firestore.collection("jobs").add({
       companyName,
       jobTitle,
       wage,
       location,
-      requirements,
-      benefits,
-      remote,
       interview,
-      extraNotes,
       uid: this.uid,
       timestamp: this.timestamp,
     });
