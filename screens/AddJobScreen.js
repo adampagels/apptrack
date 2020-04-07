@@ -8,7 +8,8 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
-import Fire from "../Fire";
+import * as firebase from "firebase/app";
+import "firebase/firestore";
 
 export default function AddJobScreen() {
   const [companyName, setCompanyName] = useState("");
@@ -16,8 +17,19 @@ export default function AddJobScreen() {
   const [wage, setWage] = useState("");
   const [location, setLocation] = useState("");
 
-  const handleJob = () => {
-    Fire.shared.addJob(companyName, jobTitle, wage, location, false);
+  const addJob = () => {
+    firebase
+      .firestore()
+      .collection("jobs")
+      .add({
+        companyName: companyName,
+        jobTitle: jobTitle,
+        wage: wage,
+        location: location,
+        interview: false,
+        uid: (firebase.auth().currentUser || {}).uid,
+        timestamp: Date.now(),
+      });
   };
 
   return (
@@ -60,7 +72,7 @@ export default function AddJobScreen() {
           ></TextInput>
         </View>
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleJob}>
+      <TouchableOpacity style={styles.button} onPress={addJob}>
         <Text style={styles.buttonText}>Add Job</Text>
       </TouchableOpacity>
     </SafeAreaView>
