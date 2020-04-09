@@ -5,20 +5,21 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Image,
 } from "react-native";
 import * as firebase from "firebase";
 
 export default function LoginScreen(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleLogin = () => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .catch(error => setError(error.message));
+      .catch((error) => setErrorMessage(error.message));
   };
 
   const navigateToRegisterScreen = () => {
@@ -27,7 +28,11 @@ export default function LoginScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.greetingMessage}>Welcome Back</Text>
+      <Image
+        source={require("../assets/authenticationBG.png")}
+        style={styles.background}
+      />
+      <Text style={styles.greetingMessage}>Welcome{"\n"}Back</Text>
 
       <View style={styles.error}>
         {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
@@ -39,7 +44,7 @@ export default function LoginScreen(props) {
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            onChangeText={email => setEmail(email)}
+            onChangeText={(email) => setEmail(email)}
             value={email}
           ></TextInput>
         </View>
@@ -49,11 +54,12 @@ export default function LoginScreen(props) {
             style={styles.input}
             secureTextEntry
             autoCapitalize="none"
-            onChangeText={password => setPassword(password)}
+            onChangeText={(password) => setPassword(password)}
             value={password}
           ></TextInput>
         </View>
       </View>
+
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
@@ -63,7 +69,7 @@ export default function LoginScreen(props) {
         onPress={navigateToRegisterScreen}
       >
         <Text style={{ color: "#414959", fontSize: 13 }}>
-          New to AppTrack?
+          New to App Track?
           <Text style={{ color: "#5271FF", fontWeight: "500" }}> Sign Up </Text>
         </Text>
       </TouchableOpacity>
@@ -73,34 +79,46 @@ export default function LoginScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    position: "relative",
   },
   error: {
-    color: "#5271FF"
+    color: "#5271FF",
+  },
+  background: {
+    height: "220%",
+    position: "absolute",
+    resizeMode: "contain",
+    right: -60,
+    top: -640,
+    width: "140%",
   },
   greetingMessage: {
-    fontSize: 18,
-    marginTop: 32,
-    textAlign: "center"
+    color: "white",
+    fontSize: 40,
+    marginLeft: 80,
+    marginTop: 170,
+    textAlign: "left",
   },
   form: {
+    marginTop: 200,
     marginBottom: 40,
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
   inputTitle: {
     color: "#8A8F9E",
     fontSize: 10,
-    textTransform: "uppercase"
+    textTransform: "uppercase",
   },
   input: {
     color: "#333",
     borderBottomColor: "#8A8F9E",
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 15,
-    height: 40
+    height: 40,
   },
   passwordWrapper: {
-    marginTop: 32
+    marginTop: 32,
   },
   button: {
     alignItems: "center",
@@ -108,14 +126,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     height: 50,
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
   buttonText: {
     color: "#fefefe",
-    fontWeight: "500"
+    fontWeight: "500",
   },
   signUpMessageWrapper: {
     alignSelf: "center",
-    marginTop: 32
-  }
+    marginTop: 32,
+  },
 });
