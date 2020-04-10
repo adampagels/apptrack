@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Image,
 } from "react-native";
 import * as firebase from "firebase";
 
@@ -19,12 +20,12 @@ export default function RegisterScreen(props) {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(userCredentials => {
+      .then((userCredentials) => {
         return userCredentials.user.updateProfile({
-          displayName: name
+          displayName: name,
         });
       })
-      .catch(error => setErrorMessage(error.message));
+      .catch((error) => setErrorMessage(error.message));
   };
 
   const navigateToLoginScreen = () => {
@@ -33,7 +34,11 @@ export default function RegisterScreen(props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.greetingMessage}>Sign up to get started!</Text>
+      <Image
+        source={require("../assets/authenticationBG.png")}
+        style={styles.background}
+      />
+      <Text style={styles.greetingMessage}>Register{"\n"}Now</Text>
 
       <View style={styles.error}>
         {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
@@ -45,7 +50,7 @@ export default function RegisterScreen(props) {
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            onChangeText={name => setName(name)}
+            onChangeText={(name) => setName(name)}
             value={name}
           ></TextInput>
         </View>
@@ -54,7 +59,7 @@ export default function RegisterScreen(props) {
           <TextInput
             style={styles.input}
             autoCapitalize="none"
-            onChangeText={email => setEmail(email)}
+            onChangeText={(email) => setEmail(email)}
             value={email}
           ></TextInput>
         </View>
@@ -64,7 +69,7 @@ export default function RegisterScreen(props) {
             style={styles.input}
             secureTextEntry
             autoCapitalize="none"
-            onChangeText={password => setPassword(password)}
+            onChangeText={(password) => setPassword(password)}
             value={password}
           ></TextInput>
         </View>
@@ -88,31 +93,41 @@ export default function RegisterScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   error: {
-    color: "#5271FF"
+    color: "#5271FF",
+  },
+  background: {
+    height: "220%",
+    position: "absolute",
+    resizeMode: "contain",
+    right: -60,
+    top: -640,
+    width: "140%",
   },
   greetingMessage: {
-    fontSize: 18,
-    marginTop: 32,
-    textAlign: "center"
+    color: "white",
+    fontSize: 40,
+    marginLeft: 80,
+    marginTop: 170,
+    textAlign: "left",
   },
   form: {
     marginBottom: 40,
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
   inputTitle: {
     color: "#8A8F9E",
     fontSize: 10,
-    textTransform: "uppercase"
+    textTransform: "uppercase",
   },
   input: {
     color: "#333",
     borderBottomColor: "#8A8F9E",
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 15,
-    height: 40
+    height: 40,
   },
   button: {
     alignItems: "center",
@@ -120,14 +135,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     height: 50,
-    marginHorizontal: 30
+    marginHorizontal: 30,
   },
   buttonText: {
     color: "#fefefe",
-    fontWeight: "500"
+    fontWeight: "500",
   },
   signUpMessageWrapper: {
     alignSelf: "center",
-    marginTop: 32
-  }
+    marginTop: 32,
+  },
 });
