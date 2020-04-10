@@ -9,6 +9,7 @@ import {
   Image,
   KeyboardAvoidingView,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import * as firebase from "firebase";
 
 export default function RegisterScreen(props) {
@@ -39,6 +40,12 @@ export default function RegisterScreen(props) {
         source={require("../assets/authenticationBG.png")}
         style={styles.background}
       />
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={navigateToLoginScreen}
+      >
+        <Ionicons name="ios-arrow-back" size={30} color={"#fefefe"} />
+      </TouchableOpacity>
       <Text style={styles.greetingMessage}>Create{"\n"}Account</Text>
 
       <View style={styles.error}>
@@ -163,5 +170,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 50,
     marginTop: 32,
+  },
+  backButton: {
+    alignItems: "center",
+    borderRadius: 16,
+    height: 40,
+    justifyContent: "center",
+    left: 12,
+    position: "absolute",
+    top: 50,
+    width: 40,
   },
 });
