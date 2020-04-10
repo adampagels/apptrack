@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  KeyboardAvoidingView,
 } from "react-native";
 import * as firebase from "firebase";
 
@@ -38,42 +39,51 @@ export default function RegisterScreen(props) {
         source={require("../assets/authenticationBG.png")}
         style={styles.background}
       />
-      <Text style={styles.greetingMessage}>Register{"\n"}Now</Text>
+      <Text style={styles.greetingMessage}>Create{"\n"}Account</Text>
 
       <View style={styles.error}>
         {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
       </View>
 
-      <View style={styles.form}>
-        <View>
-          <Text style={styles.inputTitle}>Full Name</Text>
-          <TextInput
-            style={styles.input}
-            autoCapitalize="none"
-            onChangeText={(name) => setName(name)}
-            value={name}
-          ></TextInput>
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ flex: 1, paddingTop: 50 }}
+      >
+        <View style={styles.form}>
+          <View>
+            <Text style={styles.inputTitle}>Username</Text>
+            <TextInput
+              style={styles.input}
+              autoCapitalize="none"
+              onChangeText={(name) => setName(name)}
+              value={name}
+              autoCorrect={false}
+            ></TextInput>
+          </View>
+          <View style={{ marginTop: 32 }}>
+            <Text style={styles.inputTitle}>Email</Text>
+            <TextInput
+              style={styles.input}
+              autoCapitalize="none"
+              onChangeText={(email) => setEmail(email)}
+              value={email}
+              autoCorrect={false}
+            ></TextInput>
+          </View>
+          <View style={{ marginTop: 32 }}>
+            <Text style={styles.inputTitle}>Password</Text>
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              autoCapitalize="none"
+              onChangeText={(password) => setPassword(password)}
+              value={password}
+              autoCorrect={false}
+            ></TextInput>
+          </View>
         </View>
-        <View style={{ marginTop: 32 }}>
-          <Text style={styles.inputTitle}>Email</Text>
-          <TextInput
-            style={styles.input}
-            autoCapitalize="none"
-            onChangeText={(email) => setEmail(email)}
-            value={email}
-          ></TextInput>
-        </View>
-        <View style={{ marginTop: 32 }}>
-          <Text style={styles.inputTitle}>Password</Text>
-          <TextInput
-            style={styles.input}
-            secureTextEntry
-            autoCapitalize="none"
-            onChangeText={(password) => setPassword(password)}
-            value={password}
-          ></TextInput>
-        </View>
-      </View>
+      </KeyboardAvoidingView>
+
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
@@ -84,7 +94,7 @@ export default function RegisterScreen(props) {
       >
         <Text style={{ color: "#414959", fontSize: 13 }}>
           Already signed up?
-          <Text style={{ color: "#5271FF", fontWeight: "500" }}> Login </Text>
+          <Text style={{ color: "#58C0E6", fontWeight: "500" }}> Login </Text>
         </Text>
       </TouchableOpacity>
     </View>
@@ -94,6 +104,7 @@ export default function RegisterScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: "relative",
   },
   error: {
     color: "#5271FF",
@@ -107,14 +118,18 @@ const styles = StyleSheet.create({
     width: "140%",
   },
   greetingMessage: {
-    color: "white",
+    color: "#fefefe",
     fontSize: 40,
     marginLeft: 80,
-    marginTop: 170,
+    marginTop: 140,
+    marginBottom: 0,
     textAlign: "left",
   },
   form: {
-    marginBottom: 40,
+    flex: 1,
+    justifyContent: "flex-end",
+    marginTop: 120,
+    marginBottom: 47,
     marginHorizontal: 30,
   },
   inputTitle: {
@@ -123,19 +138,22 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   input: {
-    color: "#333",
+    color: "#FEB047",
     borderBottomColor: "#8A8F9E",
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 15,
     height: 40,
   },
+  passwordWrapper: {
+    marginTop: 32,
+  },
   button: {
     alignItems: "center",
-    backgroundColor: "#5271FF",
-    borderRadius: 4,
+    backgroundColor: "#494E58",
+    borderRadius: 50,
     justifyContent: "center",
     height: 50,
-    marginHorizontal: 30,
+    marginHorizontal: 80,
   },
   buttonText: {
     color: "#fefefe",
@@ -143,6 +161,7 @@ const styles = StyleSheet.create({
   },
   signUpMessageWrapper: {
     alignSelf: "center",
+    marginBottom: 50,
     marginTop: 32,
   },
 });
