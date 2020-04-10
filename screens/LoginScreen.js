@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  KeyboardAvoidingView,
 } from "react-native";
 import * as firebase from "firebase";
 
@@ -38,27 +39,32 @@ export default function LoginScreen(props) {
         {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
       </View>
 
-      <View style={styles.form}>
-        <View>
-          <Text style={styles.inputTitle}>Email</Text>
-          <TextInput
-            style={styles.input}
-            autoCapitalize="none"
-            onChangeText={(email) => setEmail(email)}
-            value={email}
-          ></TextInput>
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ flex: 1, paddingTop: 50 }}
+      >
+        <View style={styles.form}>
+          <View>
+            <Text style={styles.inputTitle}>Email</Text>
+            <TextInput
+              style={styles.input}
+              autoCapitalize="none"
+              onChangeText={(email) => setEmail(email)}
+              value={email}
+            ></TextInput>
+          </View>
+          <View style={styles.passwordWrapper}>
+            <Text style={styles.inputTitle}>Password</Text>
+            <TextInput
+              style={styles.input}
+              secureTextEntry
+              autoCapitalize="none"
+              onChangeText={(password) => setPassword(password)}
+              value={password}
+            ></TextInput>
+          </View>
         </View>
-        <View style={styles.passwordWrapper}>
-          <Text style={styles.inputTitle}>Password</Text>
-          <TextInput
-            style={styles.input}
-            secureTextEntry
-            autoCapitalize="none"
-            onChangeText={(password) => setPassword(password)}
-            value={password}
-          ></TextInput>
-        </View>
-      </View>
+      </KeyboardAvoidingView>
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
@@ -70,7 +76,7 @@ export default function LoginScreen(props) {
       >
         <Text style={{ color: "#414959", fontSize: 13 }}>
           New to App Track?
-          <Text style={{ color: "#5271FF", fontWeight: "500" }}> Sign Up </Text>
+          <Text style={{ color: "#FEB047", fontWeight: "500" }}> Sign Up </Text>
         </Text>
       </TouchableOpacity>
     </View>
@@ -101,7 +107,9 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   form: {
-    marginTop: 200,
+    flex: 1,
+    justifyContent: "flex-end",
+    marginTop: 120,
     marginBottom: 40,
     marginHorizontal: 30,
   },
@@ -122,11 +130,11 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#5271FF",
-    borderRadius: 4,
+    backgroundColor: "#494E58",
+    borderRadius: 50,
     justifyContent: "center",
     height: 50,
-    marginHorizontal: 30,
+    marginHorizontal: 80,
   },
   buttonText: {
     color: "#fefefe",
@@ -134,6 +142,7 @@ const styles = StyleSheet.create({
   },
   signUpMessageWrapper: {
     alignSelf: "center",
+    marginBottom: 120,
     marginTop: 32,
   },
 });
