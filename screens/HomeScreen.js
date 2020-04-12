@@ -5,7 +5,6 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  SafeAreaView,
   ImageBackground,
 } from "react-native";
 import * as firebase from "firebase/app";
@@ -42,8 +41,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Hello {displayName}!</Text>
+    <View style={styles.container}>
       <View style={styles.listContainer}>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -64,74 +62,99 @@ export default function HomeScreen() {
           )}
         />
       </View>
-    </SafeAreaView>
+      <View style={styles.header}>
+        <Text style={styles.greetingMessage}>Hello, {displayName}!</Text>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    overflow: "hidden",
+  },
+  header: {
+    backgroundColor: "#494E58",
+    borderBottomLeftRadius: 90,
+    borderTopLeftRadius: 0,
+    height: 150,
+    overflow: "hidden",
+    position: "absolute",
+    right: 0,
+    top: 0,
+    width: "100%",
+  },
+  greetingMessage: {
+    borderBottomLeftRadius: 90,
+    color: "#fefefe",
+    fontSize: 30,
+    fontWeight: "500",
+    position: "absolute",
+    right: "35%",
+    top: "50%",
   },
   listContainer: {
     flex: 1,
+    marginTop: 130,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
   },
   list: {
-    flex: 1,
     borderRadius: 15,
-    paddingTop: 80,
-    width: 300,
+    flex: 1,
     height: 200,
     marginBottom: 30,
+    marginTop: 50,
+    width: 300,
   },
   role: {
-    textTransform: "uppercase",
+    color: "#Fefefe",
+    flexWrap: "wrap",
     fontSize: 18,
     fontWeight: "800",
-    position: "absolute",
     left: 30,
+    position: "absolute",
+    textTransform: "uppercase",
     top: 25,
     width: "300%",
-    flexWrap: "wrap",
-    color: "#Fefefe",
   },
   company: {
-    textTransform: "uppercase",
+    color: "#fefefe",
+    flexWrap: "wrap",
     fontSize: 14,
     fontWeight: "800",
-    position: "absolute",
     left: 40,
+    opacity: 1,
+    position: "absolute",
+    textTransform: "uppercase",
     top: 60,
     width: "300%",
-    flexWrap: "wrap",
-    color: "#fefefe",
-    opacity: 1,
   },
   background: {
+    backgroundColor: "transparent",
+    borderRadius: 15,
     height: 200,
+    overflow: "hidden",
     position: "absolute",
     resizeMode: "contain",
     width: "100%",
-    overflow: "hidden",
-    borderRadius: 15,
-    backgroundColor: "transparent",
   },
 
   wage: {
+    color: "#FEB047",
+    left: 30,
     position: "absolute",
     top: 150,
-    left: 30,
-    color: "#FEB047",
   },
   location: {
-    position: "absolute",
     color: "#fefefe",
-    top: 150,
+    position: "absolute",
     right: 30,
+    top: 150,
   },
 });
