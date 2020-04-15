@@ -15,7 +15,11 @@ export default function HomeScreen() {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    getJobs();
+    const unsubscribe = firebase
+      .firestore()
+      .collection("jobs")
+      .onSnapshot(getJobs);
+    return () => unsubscribe();
   }, []);
 
   const getJobs = () => {
@@ -36,6 +40,13 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+      {jobs.length === 0 && (
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Text>You haven't added any jobs yet!</Text>
+        </View>
+      )}
       <View style={styles.listContainer}>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -50,7 +61,9 @@ export default function HomeScreen() {
                 <Text style={styles.role}>{item.jobTitle}</Text>
                 <Text style={styles.company}>{item.companyName}</Text>
                 <Text style={styles.wage}>${item.wage}</Text>
-                <Text style={styles.location}>{item.location}</Text>
+                <Text style={styles.location}>
+                  {item.city}, {item.country}
+                </Text>
               </ImageBackground>
             </View>
           )}
@@ -81,7 +94,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flex: 1,
     height: 200,
-    marginBottom: 30,
+    marginBottom: 0,
     marginTop: 0,
     width: 300,
     marginHorizontal: 30,
@@ -90,8 +103,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flex: 1,
     height: 200,
-    marginBottom: 30,
-    marginTop: 70,
+    marginBottom: 0,
+    marginTop: 60,
     width: 300,
     marginHorizontal: 30,
   },
@@ -121,7 +134,7 @@ const styles = StyleSheet.create({
   background: {
     backgroundColor: "transparent",
     borderRadius: 15,
-    height: 200,
+    height: 170,
     overflow: "hidden",
     position: "absolute",
     resizeMode: "contain",
@@ -133,13 +146,13 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     left: 30,
     position: "absolute",
-    top: 150,
+    top: 125,
   },
   location: {
     color: "#fefefe",
     fontWeight: "400",
     position: "absolute",
     right: 30,
-    top: 150,
+    top: 125,
   },
 });
