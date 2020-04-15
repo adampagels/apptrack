@@ -10,8 +10,9 @@ import {
 } from "react-native";
 import * as firebase from "firebase/app";
 import "firebase/firestore";
+import { Ionicons } from "@expo/vector-icons";
 
-export default function AddJobScreen() {
+export default function AddJobScreen(props) {
   const [companyName, setCompanyName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [wage, setWage] = useState("");
@@ -33,8 +34,15 @@ export default function AddJobScreen() {
       });
   };
 
+  const goBack = () => {
+    props.navigation.goBack();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.backButton} onPress={goBack}>
+        <Ionicons name="ios-arrow-back" size={30} color={"#fefefe"} />
+      </TouchableOpacity>
       <View style={styles.form}>
         <View style={styles.inputWrapper}>
           <Text style={styles.inputTitle}>Company</Text>
@@ -118,5 +126,16 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fefefe",
     fontWeight: "500",
+  },
+  backButton: {
+    alignItems: "center",
+    borderRadius: 16,
+    height: 40,
+    justifyContent: "center",
+    left: 12,
+    position: "absolute",
+    top: 50,
+    width: 40,
+    borderWidth: 1,
   },
 });
