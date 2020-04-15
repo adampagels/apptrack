@@ -8,21 +8,15 @@ import {
   ImageBackground,
 } from "react-native";
 import * as firebase from "firebase/app";
+import Header from "../components/Header";
 import "firebase/firestore";
 
 export default function HomeScreen() {
-  const [displayName, setDisplayName] = useState("");
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    const { displayName } = firebase.auth().currentUser;
-    setDisplayName(displayName);
     getJobs();
   }, []);
-
-  const logOutUser = () => {
-    firebase.auth().signOut();
-  };
 
   const getJobs = () => {
     let jobData = [];
@@ -48,7 +42,7 @@ export default function HomeScreen() {
           data={jobs}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={styles.list}>
+            <View style={item === jobs[0] ? styles.topOfList : styles.list}>
               <ImageBackground
                 source={require("../assets/cardBackground.png")}
                 style={styles.background}
@@ -62,9 +56,7 @@ export default function HomeScreen() {
           )}
         />
       </View>
-      <View style={styles.header}>
-        <Text style={styles.greetingMessage}>Hello, {displayName}!</Text>
-      </View>
+      <Header />
     </View>
   );
 }
@@ -75,30 +67,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     overflow: "hidden",
-  },
-  header: {
-    backgroundColor: "#494E58",
-    borderBottomLeftRadius: 90,
-    borderTopLeftRadius: 0,
-    height: 150,
-    overflow: "hidden",
-    position: "absolute",
-    right: 0,
-    top: 0,
-    width: "100%",
-  },
-  greetingMessage: {
-    borderBottomLeftRadius: 90,
-    color: "#fefefe",
-    fontSize: 30,
-    fontWeight: "500",
-    position: "absolute",
-    right: "35%",
-    top: "50%",
+    backgroundColor: "#fefefe",
   },
   listContainer: {
     flex: 1,
-    marginTop: 130,
+    marginTop: 120,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
@@ -109,14 +82,24 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 200,
     marginBottom: 30,
-    marginTop: 50,
+    marginTop: 0,
     width: 300,
+    marginHorizontal: 30,
+  },
+  topOfList: {
+    borderRadius: 15,
+    flex: 1,
+    height: 200,
+    marginBottom: 30,
+    marginTop: 70,
+    width: 300,
+    marginHorizontal: 30,
   },
   role: {
     color: "#Fefefe",
     flexWrap: "wrap",
     fontSize: 18,
-    fontWeight: "800",
+    fontWeight: "900",
     left: 30,
     position: "absolute",
     textTransform: "uppercase",
@@ -128,7 +111,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     fontSize: 14,
     fontWeight: "800",
-    left: 40,
+    left: 30,
     opacity: 1,
     position: "absolute",
     textTransform: "uppercase",
@@ -147,12 +130,14 @@ const styles = StyleSheet.create({
 
   wage: {
     color: "#FEB047",
+    fontWeight: "400",
     left: 30,
     position: "absolute",
     top: 150,
   },
   location: {
     color: "#fefefe",
+    fontWeight: "400",
     position: "absolute",
     right: 30,
     top: 150,
