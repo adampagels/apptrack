@@ -15,7 +15,8 @@ export default function AddJobScreen() {
   const [companyName, setCompanyName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [wage, setWage] = useState("");
-  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
 
   const addJob = () => {
     firebase
@@ -25,8 +26,8 @@ export default function AddJobScreen() {
         companyName: companyName,
         jobTitle: jobTitle,
         wage: wage,
-        location: location,
-        interview: false,
+        city: city,
+        country: country,
         uid: (firebase.auth().currentUser || {}).uid,
         timestamp: Date.now(),
       });
@@ -39,7 +40,6 @@ export default function AddJobScreen() {
           <Text style={styles.inputTitle}>Company</Text>
           <TextInput
             style={styles.input}
-            autoCapitalize="none"
             onChangeText={(companyName) => setCompanyName(companyName)}
             value={companyName}
           ></TextInput>
@@ -48,7 +48,6 @@ export default function AddJobScreen() {
           <Text style={styles.inputTitle}>Job Title</Text>
           <TextInput
             style={styles.input}
-            autoCapitalize="none"
             onChangeText={(jobTitle) => setJobTitle(jobTitle)}
             value={jobTitle}
           ></TextInput>
@@ -57,18 +56,24 @@ export default function AddJobScreen() {
           <Text style={styles.inputTitle}>Wage</Text>
           <TextInput
             style={styles.input}
-            autoCapitalize="none"
             onChangeText={(wage) => setWage(wage)}
             value={wage}
           ></TextInput>
         </View>
         <View style={styles.inputWrapper}>
-          <Text style={styles.inputTitle}>Location</Text>
+          <Text style={styles.inputTitle}>City</Text>
           <TextInput
             style={styles.input}
-            autoCapitalize="none"
-            onChangeText={(location) => setLocation(location)}
-            value={location}
+            onChangeText={(city) => setCity(city)}
+            value={city}
+          ></TextInput>
+        </View>
+        <View style={styles.inputWrapper}>
+          <Text style={styles.inputTitle}>Country</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(country) => setCountry(country)}
+            value={country}
           ></TextInput>
         </View>
       </View>
