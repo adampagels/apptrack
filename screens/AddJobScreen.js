@@ -64,8 +64,10 @@ export default function AddJobScreen(props) {
           <Text style={styles.inputTitle}>Wage</Text>
           <TextInput
             style={styles.input}
-            onChangeText={(wage) => setWage(wage)}
+            onChangeText={(wage) => setWage(wage.replace(/[^0-9]/g, ""))}
             value={wage}
+            keyboardType={"numeric"}
+            maxLength={7}
           ></TextInput>
         </View>
         <View style={styles.inputWrapper}>
