@@ -50,6 +50,7 @@ export default function AddJobScreen(props) {
             style={styles.input}
             onChangeText={(companyName) => setCompanyName(companyName)}
             value={companyName}
+            maxLength={20}
           ></TextInput>
         </View>
         <View style={styles.inputWrapper}>
@@ -58,6 +59,7 @@ export default function AddJobScreen(props) {
             style={styles.input}
             onChangeText={(jobTitle) => setJobTitle(jobTitle)}
             value={jobTitle}
+            maxLength={20}
           ></TextInput>
         </View>
         <View style={styles.inputWrapper}>
@@ -76,6 +78,7 @@ export default function AddJobScreen(props) {
             style={styles.input}
             onChangeText={(city) => setCity(city)}
             value={city}
+            maxLength={20}
           ></TextInput>
         </View>
         <View style={styles.inputWrapper}>
@@ -84,6 +87,7 @@ export default function AddJobScreen(props) {
             style={styles.input}
             onChangeText={(country) => setCountry(country)}
             value={country}
+            maxLength={20}
           ></TextInput>
         </View>
       </View>
