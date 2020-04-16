@@ -60,8 +60,8 @@ export default function HomeScreen() {
                 source={require("../assets/cardBackground.png")}
                 style={styles.background}
               >
-                <Text style={styles.role}>{item.jobTitle}</Text>
-                <Text style={styles.company}>{item.companyName}</Text>
+                <Text style={styles.role}>{item.jobTitle.trim()}</Text>
+                <Text style={styles.company}>{item.companyName.trim()}</Text>
                 <Text style={styles.wage}>${item.wage}</Text>
                 <View
                   style={
@@ -71,9 +71,9 @@ export default function HomeScreen() {
                   }
                 >
                   {!item.city === false && (
-                    <Text style={styles.city}>{item.city}, </Text>
+                    <Text style={styles.city}>{item.city.trim()}, </Text>
                   )}
-                  <Text style={styles.country}>{item.country}</Text>
+                  <Text style={styles.country}>{item.country.trim()}</Text>
                 </View>
               </ImageBackground>
             </View>
