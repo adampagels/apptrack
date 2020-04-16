@@ -13,6 +13,7 @@ import "firebase/firestore";
 
 export default function HomeScreen() {
   const [jobs, setJobs] = useState([]);
+  const [noJobMessage, setNoJobMessage] = useState([]);
 
   useEffect(() => {
     const unsubscribe = firebase
@@ -35,6 +36,7 @@ export default function HomeScreen() {
           jobData.push(doc.data());
         });
         setJobs(jobData);
+        jobs.length === 0 && setNoJobMessage("You haven't added any jobs yet!");
       });
   };
 
@@ -44,7 +46,7 @@ export default function HomeScreen() {
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
-          <Text>You haven't added any jobs yet!</Text>
+          <Text>{noJobMessage}</Text>
         </View>
       )}
       <View style={styles.listContainer}>
