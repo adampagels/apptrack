@@ -61,9 +61,18 @@ export default function HomeScreen() {
                 <Text style={styles.role}>{item.jobTitle}</Text>
                 <Text style={styles.company}>{item.companyName}</Text>
                 <Text style={styles.wage}>${item.wage}</Text>
-                <Text style={styles.location}>
-                  {item.city}, {item.country}
-                </Text>
+                <View
+                  style={
+                    item.city.length + item.country.length < 24
+                      ? styles.location
+                      : styles.locationTooLong
+                  }
+                >
+                  {!item.city === false && (
+                    <Text style={styles.city}>{item.city}, </Text>
+                  )}
+                  <Text style={styles.country}>{item.country}</Text>
+                </View>
               </ImageBackground>
             </View>
           )}
@@ -123,7 +132,7 @@ const styles = StyleSheet.create({
     color: "#fefefe",
     flexWrap: "wrap",
     fontSize: 14,
-    fontWeight: "800",
+    fontWeight: "700",
     left: 30,
     opacity: 1,
     position: "absolute",
@@ -140,7 +149,6 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     width: "100%",
   },
-
   wage: {
     color: "#FEB047",
     fontWeight: "400",
@@ -149,8 +157,21 @@ const styles = StyleSheet.create({
     top: 125,
   },
   location: {
+    flex: 1,
+    flexDirection: "row",
+    position: "absolute",
+    right: 30,
+    top: 125,
+  },
+  city: {
     color: "#fefefe",
-    fontWeight: "400",
+  },
+  country: {
+    color: "#fefefe",
+  },
+  locationTooLong: {
+    flex: 1,
+    flexDirection: "column",
     position: "absolute",
     right: 30,
     top: 125,
