@@ -7,6 +7,7 @@ import {
   FlatList,
   ImageBackground,
 } from "react-native";
+import { SwipeListView } from "react-native-swipe-list-view";
 import * as firebase from "firebase/app";
 import Header from "../components/Header";
 import "firebase/firestore";
@@ -33,7 +34,7 @@ export default function HomeScreen() {
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
-          jobData.push(doc.data());
+          jobData.push({ data: doc.data(), id: doc.id });
         });
         setJobs(jobData);
         jobs.length === 0 && setNoJobMessage("You haven't added any jobs yet!");
@@ -50,7 +51,7 @@ export default function HomeScreen() {
         </View>
       )}
       <View style={styles.listContainer}>
-        <FlatList
+        <SwipeListView
           showsVerticalScrollIndicator={false}
           data={jobs}
           keyExtractor={(item) => item.id}
@@ -60,24 +61,34 @@ export default function HomeScreen() {
                 source={require("../assets/cardBackground.png")}
                 style={styles.background}
               >
-                <Text style={styles.role}>{item.jobTitle.trim()}</Text>
-                <Text style={styles.company}>{item.companyName.trim()}</Text>
-                <Text style={styles.wage}>${item.wage}</Text>
+                <Text style={styles.role}>{item.data.jobTitle.trim()}</Text>
+                <Text style={styles.company}>
+                  {item.data.companyName.trim()}
+                </Text>
+                <Text style={styles.wage}>${item.data.wage}</Text>
                 <View
                   style={
-                    item.city.length + item.country.length < 24
+                    item.data.city.length + item.data.country.length < 24
                       ? styles.location
                       : styles.locationTooLong
                   }
                 >
-                  {!item.city === false && (
-                    <Text style={styles.city}>{item.city.trim()}, </Text>
+                  {!item.data.city === false && (
+                    <Text style={styles.city}>{item.data.city.trim()}, </Text>
                   )}
-                  <Text style={styles.country}>{item.country.trim()}</Text>
+                  <Text style={styles.country}>{item.data.country.trim()}</Text>
                 </View>
               </ImageBackground>
             </View>
           )}
+          renderHiddenItem={(item) => (
+            <View>
+              <Text>Left</Text>
+              <Text>Right</Text>
+            </View>
+          )}
+          // leftOpenValue={75}
+          rightOpenValue={-75}
         />
       </View>
       <Header />
