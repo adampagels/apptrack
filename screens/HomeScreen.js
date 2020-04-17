@@ -41,6 +41,10 @@ export default function HomeScreen() {
       });
   };
 
+  const deleteJob = (id) => {
+    firebase.firestore().collection("jobs").doc(id).delete();
+  };
+
   return (
     <View style={styles.container}>
       {jobs.length === 0 && (
@@ -61,7 +65,9 @@ export default function HomeScreen() {
                 source={require("../assets/cardBackground.png")}
                 style={styles.background}
               >
-                <Text style={styles.role}>{item.data.jobTitle.trim()}</Text>
+                <Text style={styles.role} onPress={() => deleteJob(item.id)}>
+                  {item.data.jobTitle.trim()}
+                </Text>
                 <Text style={styles.company}>
                   {item.data.companyName.trim()}
                 </Text>
