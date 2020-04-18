@@ -4,12 +4,13 @@ import {
   View,
   Text,
   StyleSheet,
-  FlatList,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 import * as firebase from "firebase/app";
 import Header from "../components/Header";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import "firebase/firestore";
 
 export default function HomeScreen() {
@@ -65,9 +66,7 @@ export default function HomeScreen() {
                 source={require("../assets/cardBackground.png")}
                 style={styles.background}
               >
-                <Text style={styles.role} onPress={() => deleteJob(item.id)}>
-                  {item.data.jobTitle.trim()}
-                </Text>
+                <Text style={styles.role}>{item.data.jobTitle.trim()}</Text>
                 <Text style={styles.company}>
                   {item.data.companyName.trim()}
                 </Text>
@@ -87,14 +86,20 @@ export default function HomeScreen() {
               </ImageBackground>
             </View>
           )}
-          renderHiddenItem={(item) => (
-            <View>
-              <Text>Left</Text>
-              <Text>Right</Text>
-            </View>
+          renderHiddenItem={(data) => (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => deleteJob(data.item.id)}
+            >
+              <MaterialCommunityIcons
+                name="delete-forever"
+                size={25}
+                color={"#fefefe"}
+              />
+              <Text style={styles.buttonText}>Delete</Text>
+            </TouchableOpacity>
           )}
-          // leftOpenValue={75}
-          rightOpenValue={-75}
+          rightOpenValue={-150}
         />
       </View>
       <Header />
@@ -194,5 +199,21 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 30,
     top: 125,
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#d11a2a",
+    borderRadius: 50,
+    justifyContent: "center",
+    height: 50,
+    marginHorizontal: 120,
+    alignItems: "center",
+    bottom: -55,
+    left: 80,
+    flexDirection: "row",
+  },
+  buttonText: {
+    color: "#fefefe",
+    fontWeight: "500",
   },
 });
