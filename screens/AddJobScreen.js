@@ -31,11 +31,19 @@ export default function AddJobScreen(props) {
         country: country,
         uid: (firebase.auth().currentUser || {}).uid,
         timestamp: Date.now(),
+      })
+      .then(navigateToHome())
+      .catch((error) => {
+        console.log(error);
       });
   };
 
   const goBack = () => {
     props.navigation.goBack();
+  };
+
+  const navigateToHome = () => {
+    props.navigation.navigate("Home");
   };
 
   return (
