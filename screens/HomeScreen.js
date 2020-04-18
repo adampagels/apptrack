@@ -46,6 +46,10 @@ export default function HomeScreen() {
     firebase.firestore().collection("jobs").doc(id).delete();
   };
 
+  const mostRecentJobs = jobs.sort((a, b) => {
+    return new Date(b.data.timestamp) - new Date(a.data.timestamp);
+  });
+
   return (
     <View style={styles.container}>
       {jobs.length === 0 && (
@@ -55,10 +59,11 @@ export default function HomeScreen() {
           <Text>{noJobMessage}</Text>
         </View>
       )}
+
       <View style={styles.listContainer}>
         <SwipeListView
           showsVerticalScrollIndicator={false}
-          data={jobs}
+          data={mostRecentJobs}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={item === jobs[0] ? styles.topOfList : styles.list}>
