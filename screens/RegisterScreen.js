@@ -11,20 +11,22 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as firebase from "firebase";
+import { connect } from "react-redux";
+import { setRegisteredUser, updateUser } from "./../redux/app-redux";
 
-export default function RegisterScreen(props) {
-  const [name, setName] = useState("");
+function RegisterScreen(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
   const handleRegister = () => {
+    props.setRegisteredUser();
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         return userCredentials.user.updateProfile({
-          displayName: name,
+          displayName: props.user,
         });
       })
       .catch((error) => setErrorMessage(error.message));
@@ -62,8 +64,8 @@ export default function RegisterScreen(props) {
             <TextInput
               style={styles.input}
               autoCapitalize="none"
-              onChangeText={(name) => setName(name)}
-              value={name}
+              onChangeText={(user) => props.updateUser(user)}
+              value={props.user}
               autoCorrect={false}
             ></TextInput>
           </View>
@@ -107,6 +109,25 @@ export default function RegisterScreen(props) {
     </View>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setRegisteredUser: (user) => {
+      dispatch(setRegisteredUser(user));
+    },
+    updateUser: (user) => {
+      dispatch(updateUser(user));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
   container: {
