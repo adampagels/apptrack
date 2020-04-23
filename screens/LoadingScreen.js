@@ -9,7 +9,11 @@ function LoadingScreen(props) {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       props.navigation.navigate(user ? "App" : "Auth");
-      user && props.setUser(user.displayName);
+      if (user) {
+        if (user.displayName !== null) {
+          props.setUser(user.displayName);
+        }
+      }
     });
   }, []);
 
@@ -21,6 +25,12 @@ function LoadingScreen(props) {
   );
 }
 
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     setUser: (user) => {
@@ -29,7 +39,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(LoadingScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoadingScreen);
 
 const styles = StyleSheet.create({
   container: {
