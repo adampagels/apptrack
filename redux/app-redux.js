@@ -1,5 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
+import "firebase/firestore";
+import * as firebase from "firebase/app";
 
 const initialState = {
   user: null,
@@ -16,6 +18,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, user: action.payload };
     case "setRegisteredUser":
       return { ...state, user: action.payload };
+    case "addJob":
+      return state;
     default:
       return state;
   }
@@ -47,4 +51,23 @@ const setRegisteredUser = () => {
   };
 };
 
-export { setUser, setRegisteredUser, updateUser };
+const addJob = (jobInfo) => {
+  return function (dispatch) {
+    firebase
+      .firestore()
+      .collection("jobs")
+      .add({
+        ...jobInfo,
+        uid: (firebase.auth().currentUser || {}).uid,
+        timestamp: Date.now(),
+      })
+      .then(() => {
+        dispatch({ type: "addJob", jobInfo });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export { setUser, setRegisteredUser, updateUser, addJob };

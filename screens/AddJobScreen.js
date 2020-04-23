@@ -8,11 +8,12 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
-import * as firebase from "firebase/app";
 import "firebase/firestore";
 import { Ionicons } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import { addJob } from "./../redux/app-redux";
 
-export default function AddJobScreen(props) {
+function AddJobScreen(props) {
   const [companyName, setCompanyName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [wage, setWage] = useState("");
@@ -20,22 +21,14 @@ export default function AddJobScreen(props) {
   const [country, setCountry] = useState("");
 
   const addJob = () => {
-    firebase
-      .firestore()
-      .collection("jobs")
-      .add({
-        companyName: companyName,
-        jobTitle: jobTitle,
-        wage: wage,
-        city: city,
-        country: country,
-        uid: (firebase.auth().currentUser || {}).uid,
-        timestamp: Date.now(),
-      })
-      .then(navigateToHome())
-      .catch((error) => {
-        console.log(error);
-      });
+    props.addJob({
+      companyName: companyName,
+      jobTitle: jobTitle,
+      wage: wage,
+      city: city,
+      country: country,
+    });
+    navigateToHome();
   };
 
   const goBack = () => {
@@ -105,6 +98,16 @@ export default function AddJobScreen(props) {
     </SafeAreaView>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addJob: (job) => {
+      dispatch(addJob(job));
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AddJobScreen);
 
 const styles = StyleSheet.create({
   container: {
