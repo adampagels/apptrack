@@ -12,47 +12,33 @@ import * as firebase from "firebase/app";
 import Header from "../components/Header";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import "firebase/firestore";
+import { connect } from "react-redux";
+import { getJob } from "./../redux/app-redux";
 
-export default function HomeScreen() {
-  const [jobs, setJobs] = useState([]);
+function HomeScreen(props) {
   const [noJobMessage, setNoJobMessage] = useState([]);
 
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
       .collection("jobs")
-      .onSnapshot(getJobs);
+      .onSnapshot(() => {
+        props.getJob();
+      });
     return () => unsubscribe();
   }, []);
-
-  const getJobs = () => {
-    let jobData = [];
-    let userId = (firebase.auth().currentUser || {}).uid;
-    firebase
-      .firestore()
-      .collection("jobs")
-      .where("uid", "==", userId)
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          jobData.push({ data: doc.data(), id: doc.id });
-        });
-        setJobs(jobData);
-        jobs.length === 0 && setNoJobMessage("You haven't added any jobs yet!");
-      });
-  };
 
   const deleteJob = (id) => {
     firebase.firestore().collection("jobs").doc(id).delete();
   };
 
-  const mostRecentJobs = jobs.sort((a, b) => {
+  const mostRecentJobs = props.jobs.sort((a, b) => {
     return new Date(b.data.timestamp) - new Date(a.data.timestamp);
   });
 
   return (
     <View style={styles.container}>
-      {jobs.length === 0 && (
+      {props.jobs.length === 0 && (
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
@@ -66,7 +52,9 @@ export default function HomeScreen() {
           data={mostRecentJobs}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={item === jobs[0] ? styles.topOfList : styles.list}>
+            <View
+              style={item === props.jobs[0] ? styles.topOfList : styles.list}
+            >
               <ImageBackground
                 source={require("../assets/cardBackground.png")}
                 style={styles.background}
@@ -111,6 +99,22 @@ export default function HomeScreen() {
     </View>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    jobs: state.jobs,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getJob: () => {
+      dispatch(getJob());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {

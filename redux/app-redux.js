@@ -7,6 +7,7 @@ const initialState = {
   user: null,
   email: null,
   password: null,
+  jobs: [],
 };
 
 // Reducer
@@ -20,6 +21,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, user: action.payload };
     case "addJob":
       return state;
+    case "getJob":
+      return { ...state, jobs: action.payload };
     default:
       return state;
   }
@@ -62,7 +65,7 @@ const addJob = (jobInfo) => {
         timestamp: Date.now(),
       })
       .then(() => {
-        dispatch({ type: "addJob", jobInfo });
+        dispatch({ type: "addJob", payload: jobInfo });
       })
       .catch((error) => {
         console.log(error);
@@ -70,4 +73,26 @@ const addJob = (jobInfo) => {
   };
 };
 
-export { setUser, setRegisteredUser, updateUser, addJob };
+const getJob = () => {
+  return function (dispatch) {
+    let jobData = [];
+    let userId = (firebase.auth().currentUser || {}).uid;
+    firebase
+      .firestore()
+      .collection("jobs")
+      .where("uid", "==", userId)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          jobData.push({ data: doc.data(), id: doc.id });
+        });
+        dispatch({ type: "getJob", payload: jobData });
+        // console.log(getState().jobs);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export { setUser, setRegisteredUser, updateUser, addJob, getJob };
