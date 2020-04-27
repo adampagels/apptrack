@@ -16,8 +16,6 @@ import { connect } from "react-redux";
 import { getJob } from "./../redux/app-redux";
 
 function HomeScreen(props) {
-  const [noJobMessage, setNoJobMessage] = useState([]);
-
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
@@ -38,13 +36,11 @@ function HomeScreen(props) {
 
   return (
     <View style={styles.container}>
-      {props.jobs.length === 0 && (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <Text>{noJobMessage}</Text>
-        </View>
-      )}
+      <View style={{ position: "absolute", top: "55%" }}>
+        <Text style={{ fontSize: 18 }}>
+          {props.jobs.length === 0 && "No jobs to show"}
+        </Text>
+      </View>
 
       <View style={styles.listContainer}>
         <SwipeListView
@@ -121,7 +117,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
-    overflow: "hidden",
     backgroundColor: "#fefefe",
   },
   listContainer: {
