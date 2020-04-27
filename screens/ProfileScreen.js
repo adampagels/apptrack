@@ -14,7 +14,7 @@ function ProfileScreen(props) {
 
   const userEmail = (firebase.auth().currentUser || {}).email;
 
-  const deleteJobs = () => {
+  const deleteAllJobs = () => {
     let userId = (firebase.auth().currentUser || {}).uid;
     firebase
       .firestore()
@@ -31,16 +31,32 @@ function ProfileScreen(props) {
       });
   };
 
-  const deleteJobsAlert = () => {
+  const deleteUser = () => {
+    let userId = firebase.auth().currentUser || {};
+    userId.delete().catch((error) => {
+      console.log(error);
+    });
+  };
+
+  const deleteJobsOrUserAlert = (action) => {
     Alert.alert(
       "WARNING",
-      `This action cannot be undone. \n Press 'Delete' to confirm.`,
+      `This action cannot be undone. \n Press '${action}' to confirm.`,
       [
         {
           text: "Cancel",
           style: "cancel",
         },
-        { text: "Delete", onPress: () => deleteJobs() },
+        {
+          text: `${action}`,
+          onPress: () => {
+            if (action === "Delete") {
+              deleteAllJobs();
+            } else {
+              deleteUser();
+            }
+          },
+        },
       ],
       { cancelable: true }
     );
@@ -64,7 +80,16 @@ function ProfileScreen(props) {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={deleteJobsAlert}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => deleteJobsOrUserAlert("Deactivate")}
+        >
+          <Text style={styles.buttonText}>Deactivate</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => deleteJobsOrUserAlert("Delete")}
+        >
           <Text style={styles.buttonText}>Delete all jobs</Text>
         </TouchableOpacity>
       </View>
