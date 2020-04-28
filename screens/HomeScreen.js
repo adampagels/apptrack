@@ -30,16 +30,37 @@ function HomeScreen(props) {
     firebase.firestore().collection("jobs").doc(id).delete();
   };
 
+  const navigateToAddJobScreen = () => {
+    props.navigation.navigate("AddJob");
+  };
+
   const mostRecentJobs = props.jobs.sort((a, b) => {
     return new Date(b.data.timestamp) - new Date(a.data.timestamp);
   });
 
   return (
     <View style={styles.container}>
-      <View style={{ position: "absolute", top: "55%" }}>
-        <Text style={{ fontSize: 18 }}>
-          {props.jobs.length === 0 && "No jobs to show"}
-        </Text>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          position: "absolute",
+          top: "55%",
+        }}
+      >
+        {props.jobs.length === 0 && (
+          <Text style={{ fontSize: 18, fontWeight: "500" }}>
+            {"No jobs to show"}
+          </Text>
+        )}
+        {props.jobs.length === 0 && (
+          <TouchableOpacity
+            style={styles.addJobButton}
+            onPress={navigateToAddJobScreen}
+          >
+            <Text style={styles.addJobButtonText}>Add Jobs</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={styles.listContainer}>
@@ -218,6 +239,19 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fefefe",
+    fontWeight: "500",
+  },
+  addJobButton: {
+    alignItems: "center",
+    borderRadius: 50,
+    justifyContent: "center",
+    height: 50,
+    borderWidth: 2,
+    borderColor: "#494E58",
+    marginTop: 20,
+  },
+  addJobButtonText: {
+    color: "#494E58",
     fontWeight: "500",
   },
 });
