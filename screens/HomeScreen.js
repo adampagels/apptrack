@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import {
   View,
@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import "firebase/firestore";
 import { connect } from "react-redux";
 import { getJob } from "./../redux/app-redux";
+import { Ionicons } from "@expo/vector-icons";
 
 function HomeScreen(props) {
   useEffect(() => {
@@ -31,7 +32,7 @@ function HomeScreen(props) {
   };
 
   const navigateToAddJobScreen = () => {
-    props.navigation.navigate("AddJob");
+    props.navigation.navigate("addjobModal");
   };
 
   const mostRecentJobs = props.jobs.sort((a, b) => {
@@ -40,29 +41,33 @@ function HomeScreen(props) {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          position: "absolute",
-          top: "55%",
-        }}
-      >
-        {props.jobs.length === 0 && (
+      {props.jobs.length === 0 && (
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            position: "absolute",
+            top: "45%",
+            alignItems: "center",
+          }}
+        >
+          <Ionicons
+            name="ios-briefcase"
+            size={95}
+            style={{ color: "#8A8F9E", opacity: 0.4, marginBottom: 15 }}
+          />
           <Text style={{ fontSize: 18, fontWeight: "500" }}>
             {"No jobs to show"}
           </Text>
-        )}
-        {props.jobs.length === 0 && (
+
           <TouchableOpacity
             style={styles.addJobButton}
             onPress={navigateToAddJobScreen}
           >
             <Text style={styles.addJobButtonText}>Add Jobs</Text>
           </TouchableOpacity>
-        )}
-      </View>
-
+        </View>
+      )}
       <View style={styles.listContainer}>
         <SwipeListView
           showsVerticalScrollIndicator={false}
@@ -247,11 +252,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 50,
     borderWidth: 2,
-    borderColor: "#494E58",
+    borderColor: "#58C0E6",
     marginTop: 20,
+    width: 120,
   },
   addJobButtonText: {
-    color: "#494E58",
+    color: "#58C0E6",
     fontWeight: "500",
   },
 });
