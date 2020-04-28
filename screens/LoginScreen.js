@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import * as firebase from "firebase";
+import { NavigationEvents } from "react-navigation";
 
 export default function LoginScreen(props) {
   const [email, setEmail] = useState("");
@@ -27,23 +28,35 @@ export default function LoginScreen(props) {
     props.navigation.navigate("Register");
   };
 
+  const resetErrorMessage = () => {
+    setErrorMessage(null);
+  };
+
   return (
     <View style={styles.container}>
+      <NavigationEvents onWillFocus={resetErrorMessage} />
       <Image
         source={require("../assets/authenticationBG.png")}
         style={styles.background}
       />
       <Text style={styles.greetingMessage}>Welcome{"\n"}Back</Text>
 
-      <View style={styles.error}>
-        {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
-      </View>
-
       <KeyboardAvoidingView
         behavior="padding"
         style={{ flex: 1, paddingTop: 50 }}
       >
-        <View style={styles.form}>
+        <View style={styles.form} onPress={resetErrorMessage}>
+          <View>
+            {errorMessage && (
+              <Text
+                style={
+                  errorMessage.length < 39 ? styles.error : styles.longError
+                }
+              >
+                {errorMessage}
+              </Text>
+            )}
+          </View>
           <View>
             <Text style={styles.inputTitle}>Email</Text>
             <TextInput
@@ -51,6 +64,8 @@ export default function LoginScreen(props) {
               autoCapitalize="none"
               onChangeText={(email) => setEmail(email)}
               value={email}
+              autoCorrect={false}
+              onFocus={resetErrorMessage}
             ></TextInput>
           </View>
           <View style={styles.passwordWrapper}>
@@ -61,6 +76,8 @@ export default function LoginScreen(props) {
               autoCapitalize="none"
               onChangeText={(password) => setPassword(password)}
               value={password}
+              autoCorrect={false}
+              onFocus={resetErrorMessage}
             ></TextInput>
           </View>
         </View>
@@ -76,7 +93,7 @@ export default function LoginScreen(props) {
       >
         <Text style={{ color: "#414959", fontSize: 13 }}>
           New to App Track?
-          <Text style={{ color: "#FEB047", fontWeight: "500" }}> Sign Up </Text>
+          <Text style={{ color: "#58C0E6", fontWeight: "500" }}> Sign Up </Text>
         </Text>
       </TouchableOpacity>
     </View>
@@ -89,7 +106,18 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   error: {
-    color: "#5271FF",
+    alignSelf: "center",
+    color: "#d11a2a",
+    fontWeight: "500",
+    position: "absolute",
+    top: -30,
+  },
+  longError: {
+    alignSelf: "center",
+    color: "#d11a2a",
+    fontWeight: "500",
+    position: "absolute",
+    top: -50,
   },
   background: {
     height: "220%",
@@ -119,7 +147,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   input: {
-    color: "#333",
+    color: "#FEB047",
     borderBottomColor: "#8A8F9E",
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 15,

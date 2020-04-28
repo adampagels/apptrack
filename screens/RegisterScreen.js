@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as firebase from "firebase";
 import { connect } from "react-redux";
 import { setRegisteredUser, updateUser } from "./../redux/app-redux";
+import { NavigationEvents } from "react-navigation";
 
 function RegisterScreen(props) {
   const [email, setEmail] = useState("");
@@ -36,8 +37,13 @@ function RegisterScreen(props) {
     props.navigation.navigate("Login");
   };
 
+  const resetErrorMessage = () => {
+    setErrorMessage(null);
+  };
+
   return (
     <View style={styles.container}>
+      <NavigationEvents onWillFocus={resetErrorMessage} />
       <Image
         source={require("../assets/authenticationBG.png")}
         style={styles.background}
@@ -50,15 +56,22 @@ function RegisterScreen(props) {
       </TouchableOpacity>
       <Text style={styles.greetingMessage}>Create{"\n"}Account</Text>
 
-      <View style={styles.error}>
-        {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
-      </View>
-
       <KeyboardAvoidingView
         behavior="padding"
         style={{ flex: 1, paddingTop: 50 }}
       >
         <View style={styles.form}>
+          <View>
+            {errorMessage && (
+              <Text
+                style={
+                  errorMessage.length < 41 ? styles.error : styles.longError
+                }
+              >
+                {errorMessage}
+              </Text>
+            )}
+          </View>
           <View>
             <Text style={styles.inputTitle}>Username</Text>
             <TextInput
@@ -67,6 +80,7 @@ function RegisterScreen(props) {
               onChangeText={(user) => props.updateUser(user)}
               value={props.user}
               autoCorrect={false}
+              onFocus={resetErrorMessage}
             ></TextInput>
           </View>
           <View style={{ marginTop: 32 }}>
@@ -77,6 +91,7 @@ function RegisterScreen(props) {
               onChangeText={(email) => setEmail(email)}
               value={email}
               autoCorrect={false}
+              onFocus={resetErrorMessage}
             ></TextInput>
           </View>
           <View style={{ marginTop: 32 }}>
@@ -88,6 +103,7 @@ function RegisterScreen(props) {
               onChangeText={(password) => setPassword(password)}
               value={password}
               autoCorrect={false}
+              onFocus={resetErrorMessage}
             ></TextInput>
           </View>
         </View>
@@ -135,7 +151,18 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   error: {
-    color: "#5271FF",
+    alignSelf: "center",
+    color: "#d11a2a",
+    fontWeight: "500",
+    position: "absolute",
+    top: -30,
+  },
+  longError: {
+    alignSelf: "center",
+    color: "#d11a2a",
+    fontWeight: "500",
+    position: "absolute",
+    top: -50,
   },
   background: {
     height: "220%",
