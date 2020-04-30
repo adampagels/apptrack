@@ -13,7 +13,7 @@ import Header from "../components/Header";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import "firebase/firestore";
 import { connect } from "react-redux";
-import { getJob } from "./../redux/app-redux";
+import { fetchJobs } from "./../redux/actions/job";
 import { Ionicons } from "@expo/vector-icons";
 
 function HomeScreen(props) {
@@ -22,7 +22,7 @@ function HomeScreen(props) {
       .firestore()
       .collection("jobs")
       .onSnapshot(() => {
-        props.getJob();
+        props.fetchJobs();
       });
     return () => unsubscribe();
   }, []);
@@ -124,16 +124,16 @@ function HomeScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ jobReducer: { jobs } }) => {
   return {
-    jobs: state.jobs,
+    jobs,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getJob: () => {
-      dispatch(getJob());
+    fetchJobs: () => {
+      dispatch(fetchJobs());
     },
   };
 };
