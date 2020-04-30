@@ -3,6 +3,10 @@ import React from "react";
 import { firebaseConfig } from "./config";
 import Navigation from "./navigation/Navigation";
 import * as firebase from "firebase";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import thunkMiddleware from "redux-thunk";
+import rootReducer from "./redux/reducers/index";
 
 //Fix "can't find variable: Crypto" error
 import { decode, encode } from "base-64";
@@ -18,11 +22,17 @@ if (!global.btoa) {
 if (!global.atob) {
   global.atob = decode;
 }
+
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
-//
 
 export default function App() {
-  return <Navigation />;
+  const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+
+  return (
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  );
 }
