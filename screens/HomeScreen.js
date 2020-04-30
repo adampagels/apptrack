@@ -103,7 +103,9 @@ function HomeScreen(props) {
           )}
           renderHiddenItem={(data) => (
             <TouchableOpacity
-              style={styles.button}
+              style={
+                data.item === props.jobs[0] ? styles.firstButton : styles.button
+              }
               onPress={() => deleteJob(data.item.id)}
             >
               <MaterialCommunityIcons
@@ -239,6 +241,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 120,
     alignItems: "center",
     bottom: -55,
+    left: 80,
+    flexDirection: "row",
+  },
+  firstButton: {
+    alignItems: "center",
+    backgroundColor: "#d11a2a",
+    borderRadius: 50,
+    justifyContent: "center",
+    height: 50,
+    marginHorizontal: 120,
+    alignItems: "center",
+    bottom: -116,
     left: 80,
     flexDirection: "row",
   },
