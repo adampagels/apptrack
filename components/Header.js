@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import * as firebase from "firebase/app";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
 
-export default function Header() {
-  const [displayName, setDisplayName] = useState("");
-
-  useEffect(() => {
-    const { displayName } = firebase.auth().currentUser;
-    setDisplayName(displayName);
-  }, []);
-
+function Header(props) {
   const logOutUser = () => {
     firebase.auth().signOut();
   };
 
   return (
     <View style={styles.header}>
-      <Text style={styles.greetingMessage}>Hello, {displayName}!</Text>
+      <Text style={styles.greetingMessage}>Hello, {props.user}!</Text>
       <TouchableOpacity onPress={logOutUser} style={{ left: 290, top: 72 }}>
         <SimpleLineIcons name="logout" size={40} style={{ color: "#fefefe" }} />
       </TouchableOpacity>
     </View>
   );
 }
+
+const mapStateToProps = ({ userReducer: { user } }) => {
+  return {
+    user,
+  };
+};
 
 const styles = StyleSheet.create({
   header: {
@@ -48,3 +48,5 @@ const styles = StyleSheet.create({
     top: "50%",
   },
 });
+
+export default connect(mapStateToProps)(Header);
