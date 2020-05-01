@@ -12,22 +12,23 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import * as firebase from "firebase";
 import { connect } from "react-redux";
-import { setRegisteredUser, setUsername } from "./../redux/actions/user";
+import { setUser } from "./../redux/actions/user";
 import { NavigationEvents } from "react-navigation";
 
 function RegisterScreen(props) {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
   const handleRegister = () => {
-    props.setRegisteredUser();
+    props.setUser(username);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredentials) => {
         return userCredentials.user.updateProfile({
-          displayName: props.user,
+          displayName: username,
         });
       })
       .catch((error) => setErrorMessage(error.message));
@@ -77,8 +78,8 @@ function RegisterScreen(props) {
             <TextInput
               style={styles.input}
               autoCapitalize="none"
-              onChangeText={(user) => props.setUsername(user)}
-              value={props.user}
+              onChangeText={(username) => setUsername(username)}
+              value={username}
               autoCorrect={false}
               onFocus={resetErrorMessage}
             ></TextInput>
@@ -126,24 +127,15 @@ function RegisterScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    setRegisteredUser: (user) => {
-      dispatch(setRegisteredUser(user));
-    },
-    setUsername: (user) => {
-      dispatch(setUsername(user));
+    setUser: (user) => {
+      dispatch(setUser(user));
     },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
+export default connect(null, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
   container: {
