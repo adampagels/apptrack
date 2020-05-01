@@ -11,7 +11,7 @@ import {
 import "firebase/firestore";
 import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
-import { addJob } from "./../redux/app-redux";
+import { addJob } from "./../redux/actions/job";
 
 function AddJobScreen(props) {
   const [companyName, setCompanyName] = useState("");
