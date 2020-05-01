@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import * as firebase from "firebase";
 import { connect } from "react-redux";
-import { setUser } from "./../redux/app-redux";
+import { setUser } from "./../redux/actions/user";
 
 function LoadingScreen(props) {
   useEffect(() => {

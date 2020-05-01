@@ -99,9 +99,9 @@ function ProfileScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ jobReducer: { jobs } }) => {
   return {
-    jobs: state.jobs,
+    jobs,
   };
 };
 

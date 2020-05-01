@@ -12,7 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import * as firebase from "firebase";
 import { connect } from "react-redux";
-import { setRegisteredUser, updateUser } from "./../redux/app-redux";
+import { setRegisteredUser, setUsername } from "./../redux/actions/user";
 import { NavigationEvents } from "react-navigation";
 
 function RegisterScreen(props) {
@@ -77,7 +77,7 @@ function RegisterScreen(props) {
             <TextInput
               style={styles.input}
               autoCapitalize="none"
-              onChangeText={(user) => props.updateUser(user)}
+              onChangeText={(user) => props.setUsername(user)}
               value={props.user}
               autoCorrect={false}
               onFocus={resetErrorMessage}
@@ -137,8 +137,8 @@ const mapDispatchToProps = (dispatch) => {
     setRegisteredUser: (user) => {
       dispatch(setRegisteredUser(user));
     },
-    updateUser: (user) => {
-      dispatch(updateUser(user));
+    setUsername: (user) => {
+      dispatch(setUsername(user));
     },
   };
 };
