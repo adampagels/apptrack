@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Image,
+} from "react-native";
 import Header from "../components/Header";
 import { connect } from "react-redux";
 import * as firebase from "firebase/app";
@@ -64,6 +71,10 @@ function ProfileScreen(props) {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require("../assets/profileBG.png")}
+        style={styles.background}
+      />
       <View style={styles.userInfo}>
         <View>
           <Text style={styles.userInfoTitle}>Email</Text>
@@ -109,21 +120,31 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  background: {
+    height: "220%",
+    position: "absolute",
+    resizeMode: "contain",
+    right: -90,
+    top: -415,
+    width: "140%",
+  },
   userInfoTitle: {
-    color: "#8A8F9E",
+    color: "#494E58",
     marginBottom: 5,
-    fontSize: 13,
+    fontSize: 12,
+    opacity: 0.9,
   },
   userInfo: {
     marginHorizontal: 51,
     alignItems: "flex-start",
     justifyContent: "center",
-    marginTop: 230,
+    marginTop: 250,
   },
   userInfoData: {
     fontSize: 20,
     marginBottom: 50,
-    color: "#333",
+    color: "#494E58",
+    fontWeight: "600",
   },
   button: {
     alignItems: "center",
