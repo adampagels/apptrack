@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
+  Image,
 } from "react-native";
 import "firebase/firestore";
 import { Ionicons } from "@expo/vector-icons";
@@ -41,6 +42,10 @@ function AddJobScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Image
+        source={require("../assets/addJobBG.png")}
+        style={styles.background}
+      />
       <TouchableOpacity style={styles.backButton} onPress={goBack}>
         <Ionicons name="ios-arrow-back" size={30} color={"#fefefe"} />
       </TouchableOpacity>
@@ -113,17 +118,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  background: {
+    height: "220%",
+    position: "absolute",
+    resizeMode: "contain",
+    right: -0,
+    top: -550,
+    width: "140%",
+  },
   form: {
     marginBottom: 40,
     marginHorizontal: 30,
   },
   inputTitle: {
-    color: "#8A8F9E",
+    color: "#494E58",
     fontSize: 10,
     textTransform: "uppercase",
   },
   input: {
-    color: "#333",
+    color: "#494E58",
     borderBottomColor: "#8A8F9E",
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 15,
