@@ -14,6 +14,7 @@ import * as firebase from "firebase";
 import { connect } from "react-redux";
 import { setUser } from "./../redux/actions/user";
 import { NavigationEvents } from "react-navigation";
+import Button from "../components/Button";
 
 function RegisterScreen(props) {
   const [username, setUsername] = useState("");
@@ -110,9 +111,7 @@ function RegisterScreen(props) {
         </View>
       </KeyboardAvoidingView>
 
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
+      <Button text={"Sign Up"} onPress={handleRegister} />
 
       <TouchableOpacity
         style={styles.signUpMessageWrapper}
@@ -193,18 +192,6 @@ const styles = StyleSheet.create({
   },
   passwordWrapper: {
     marginTop: 32,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#494E58",
-    borderRadius: 50,
-    justifyContent: "center",
-    height: 50,
-    marginHorizontal: 80,
-  },
-  buttonText: {
-    color: "#fefefe",
-    fontWeight: "500",
   },
   signUpMessageWrapper: {
     alignSelf: "center",

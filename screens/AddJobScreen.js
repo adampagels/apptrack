@@ -4,7 +4,6 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
   StyleSheet,
   SafeAreaView,
   Image,
@@ -14,6 +13,7 @@ import "firebase/firestore";
 import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { addJob } from "./../redux/actions/job";
+import Button from "../components/Button";
 
 function AddJobScreen(props) {
   const [companyName, setCompanyName] = useState("");
@@ -117,9 +117,8 @@ function AddJobScreen(props) {
           ></TextInput>
         </View>
       </View>
-      <TouchableOpacity style={styles.button} onPress={addJob}>
-        <Text style={styles.buttonText}>Add Job</Text>
-      </TouchableOpacity>
+
+      <Button text={"Add Job"} onPress={addJob} />
     </SafeAreaView>
   );
 }
@@ -164,18 +163,6 @@ const styles = StyleSheet.create({
   },
   inputWrapper: {
     marginTop: 32,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#494E58",
-    borderRadius: 50,
-    justifyContent: "center",
-    height: 50,
-    marginHorizontal: 80,
-  },
-  buttonText: {
-    color: "#fefefe",
-    fontWeight: "500",
   },
   downArrow: {
     alignItems: "center",

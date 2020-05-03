@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import { NavigationEvents } from "react-navigation";
+import Button from "../components/Button";
 
 export default function LoginScreen(props) {
   const [email, setEmail] = useState("");
@@ -83,9 +84,7 @@ export default function LoginScreen(props) {
         </View>
       </KeyboardAvoidingView>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+      <Button text={"Login"} onPress={handleLogin} />
 
       <TouchableOpacity
         style={styles.signUpMessageWrapper}
@@ -155,18 +154,6 @@ const styles = StyleSheet.create({
   },
   passwordWrapper: {
     marginTop: 32,
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#494E58",
-    borderRadius: 50,
-    justifyContent: "center",
-    height: 50,
-    marginHorizontal: 80,
-  },
-  buttonText: {
-    color: "#fefefe",
-    fontWeight: "500",
   },
   signUpMessageWrapper: {
     alignSelf: "center",
