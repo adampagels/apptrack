@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   View,
@@ -8,6 +8,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  Animated,
 } from "react-native";
 import "firebase/firestore";
 import { Ionicons } from "@expo/vector-icons";
@@ -40,15 +41,34 @@ function AddJobScreen(props) {
     props.navigation.navigate("Home");
   };
 
+  const moveAnimation = new Animated.Value(0);
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(moveAnimation, {
+          toValue: 10,
+          duration: 800,
+        }),
+        Animated.timing(moveAnimation, {
+          toValue: 0,
+          duration: 800,
+        }),
+      ])
+    ).start();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Image
         source={require("../assets/addJobBG.png")}
         style={styles.background}
       />
-      <TouchableOpacity style={styles.backButton} onPress={goBack}>
-        <Ionicons name="ios-arrow-back" size={30} color={"#fefefe"} />
-      </TouchableOpacity>
+      <Animated.View style={{ transform: [{ translateY: moveAnimation }] }}>
+        <View style={styles.downArrow}>
+          <Ionicons name="ios-arrow-down" size={30} color={"#fefefe"} />
+        </View>
+      </Animated.View>
       <View style={styles.form}>
         <View style={styles.inputWrapper}>
           <Text style={styles.inputTitle}>Company</Text>
@@ -157,15 +177,14 @@ const styles = StyleSheet.create({
     color: "#fefefe",
     fontWeight: "500",
   },
-  backButton: {
+  downArrow: {
     alignItems: "center",
     borderRadius: 16,
     height: 40,
     justifyContent: "center",
-    left: 12,
+    left: 168,
     position: "absolute",
-    top: 50,
+    top: -10,
     width: 40,
-    borderWidth: 1,
   },
 });
