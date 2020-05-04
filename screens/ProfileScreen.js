@@ -8,10 +8,11 @@ import {
   Image,
 } from "react-native";
 import Header from "../components/Header";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import * as firebase from "firebase/app";
 
-function ProfileScreen(props) {
+export default function ProfileScreen() {
+  const numberOfJobs = useSelector((state) => state.jobReducer.jobs.length);
   const userCreationDate = (
     firebase.auth().currentUser || {}
   ).metadata.creationTime
@@ -86,7 +87,7 @@ function ProfileScreen(props) {
         </View>
         <View>
           <Text style={styles.userInfoTitle}>Current number of jobs</Text>
-          <Text style={styles.userInfoData}>{props.jobs.length}</Text>
+          <Text style={styles.userInfoData}>{numberOfJobs}</Text>
         </View>
       </View>
 
@@ -109,12 +110,6 @@ function ProfileScreen(props) {
     </View>
   );
 }
-
-const mapStateToProps = ({ jobReducer: { jobs } }) => {
-  return {
-    jobs,
-  };
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -165,5 +160,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-export default connect(mapStateToProps, null)(ProfileScreen);

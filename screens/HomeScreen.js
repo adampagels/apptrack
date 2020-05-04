@@ -12,7 +12,7 @@ import * as firebase from "firebase/app";
 import Header from "../components/Header";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import "firebase/firestore";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { fetchJobs } from "./../redux/actions/job";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -26,6 +26,7 @@ function HomeScreen(props) {
       });
     return () => unsubscribe();
   }, []);
+  const jobList = useSelector((state) => state.jobReducer.jobs);
 
   const deleteJob = (id) => {
     firebase.firestore().collection("jobs").doc(id).delete();
@@ -35,13 +36,13 @@ function HomeScreen(props) {
     props.navigation.navigate("addjobModal");
   };
 
-  const mostRecentJobs = props.jobs.sort((a, b) => {
+  const mostRecentJobs = jobList.sort((a, b) => {
     return new Date(b.data.timestamp) - new Date(a.data.timestamp);
   });
 
   return (
     <View style={styles.container}>
-      {props.jobs.length === 0 && (
+      {jobList.length === 0 && (
         <View
           style={{
             flex: 1,
@@ -74,9 +75,7 @@ function HomeScreen(props) {
           data={mostRecentJobs}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View
-              style={item === props.jobs[0] ? styles.topOfList : styles.list}
-            >
+            <View style={item === jobList[0] ? styles.topOfList : styles.list}>
               <ImageBackground
                 source={require("../assets/cardBackground.png")}
                 style={styles.background}
@@ -104,7 +103,7 @@ function HomeScreen(props) {
           renderHiddenItem={(data) => (
             <TouchableOpacity
               style={
-                data.item === props.jobs[0] ? styles.firstButton : styles.button
+                data.item === jobList[0] ? styles.firstButton : styles.button
               }
               onPress={() => deleteJob(data.item.id)}
             >
@@ -124,12 +123,6 @@ function HomeScreen(props) {
   );
 }
 
-const mapStateToProps = ({ jobReducer: { jobs } }) => {
-  return {
-    jobs,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchJobs: () => {
@@ -138,7 +131,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(null, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -266,12 +259,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 50,
     borderWidth: 2,
-    borderColor: "#58C0E6",
+    borderColor: "#FEB047",
     marginTop: 20,
     width: 120,
   },
   addJobButtonText: {
-    color: "#58C0E6",
+    color: "#FEB047",
     fontWeight: "500",
   },
 });

@@ -3,10 +3,11 @@ import { View, Text, StyleSheet } from "react-native";
 import * as firebase from "firebase/app";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { MaterialIcons } from "@expo/vector-icons";
 
-function Header(props) {
+export default function Header() {
+  const user = useSelector((state) => state.userReducer.user);
   const logOutUser = () => {
     firebase.auth().signOut();
   };
@@ -19,7 +20,7 @@ function Header(props) {
           size={40}
           style={styles.accountIcon}
         />
-        <Text style={styles.username}>{props.user}</Text>
+        <Text style={styles.username}>{user}</Text>
         <TouchableOpacity onPress={logOutUser} style={styles.logOutButton}>
           <SimpleLineIcons
             name="logout"
@@ -31,12 +32,6 @@ function Header(props) {
     </View>
   );
 }
-
-const mapStateToProps = ({ userReducer: { user } }) => {
-  return {
-    user,
-  };
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -69,5 +64,3 @@ const styles = StyleSheet.create({
     right: 30,
   },
 });
-
-export default connect(mapStateToProps)(Header);
