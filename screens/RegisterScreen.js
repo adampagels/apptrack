@@ -11,19 +11,21 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as firebase from "firebase";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "./../redux/actions/user";
 import { NavigationEvents } from "react-navigation";
 import Button from "../components/Button";
 
-function RegisterScreen(props) {
+export default function RegisterScreen(props) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const dispatch = useDispatch();
+
   const handleRegister = () => {
-    props.setUser(username);
+    dispatch(setUser(username));
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -125,16 +127,6 @@ function RegisterScreen(props) {
     </View>
   );
 }
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setUser: (user) => {
-      dispatch(setUser(user));
-    },
-  };
-};
-
-export default connect(null, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
   container: {

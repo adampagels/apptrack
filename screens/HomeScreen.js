@@ -12,17 +12,18 @@ import * as firebase from "firebase/app";
 import Header from "../components/Header";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import "firebase/firestore";
-import { connect, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchJobs } from "./../redux/actions/job";
 import { Ionicons } from "@expo/vector-icons";
 
-function HomeScreen(props) {
+export default function HomeScreen(props) {
+  const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = firebase
       .firestore()
       .collection("jobs")
       .onSnapshot(() => {
-        props.fetchJobs();
+        dispatch(fetchJobs());
       });
     return () => unsubscribe();
   }, []);
@@ -122,16 +123,6 @@ function HomeScreen(props) {
     </View>
   );
 }
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchJobs: () => {
-      dispatch(fetchJobs());
-    },
-  };
-};
-
-export default connect(null, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {

@@ -11,25 +11,29 @@ import {
 } from "react-native";
 import "firebase/firestore";
 import { Ionicons } from "@expo/vector-icons";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addJob } from "./../redux/actions/job";
 import Button from "../components/Button";
 
-function AddJobScreen(props) {
+export default function AddJobScreen(props) {
   const [companyName, setCompanyName] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [wage, setWage] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
 
-  const addJob = () => {
-    props.addJob({
-      companyName: companyName,
-      jobTitle: jobTitle,
-      wage: wage,
-      city: city,
-      country: country,
-    });
+  const dispatch = useDispatch();
+
+  const handleJobAdd = () => {
+    dispatch(
+      addJob({
+        companyName: companyName,
+        jobTitle: jobTitle,
+        wage: wage,
+        city: city,
+        country: country,
+      })
+    );
     navigateToHome();
   };
 
@@ -118,20 +122,10 @@ function AddJobScreen(props) {
         </View>
       </View>
 
-      <Button text={"Add Job"} onPress={addJob} />
+      <Button text={"Add Job"} onPress={() => dispatch(handleJobAdd)} />
     </SafeAreaView>
   );
 }
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addJob: (job) => {
-      dispatch(addJob(job));
-    },
-  };
-};
-
-export default connect(null, mapDispatchToProps)(AddJobScreen);
 
 const styles = StyleSheet.create({
   container: {
