@@ -13,21 +13,18 @@ import * as firebase from "firebase/app";
 
 export default function ProfileScreen() {
   const numberOfJobs = useSelector((state) => state.jobReducer.jobs.length);
-  const userCreationDate = (
-    firebase.auth().currentUser || {}
-  ).metadata.creationTime
-    .split(" ")
-    .splice(1, 3)
-    .join(" ");
 
-  const userEmail = (firebase.auth().currentUser || {}).email;
+  const {
+    email,
+    uid,
+    metadata: { creationTime },
+  } = firebase.auth().currentUser || {};
 
   const deleteAllJobs = () => {
-    let userId = (firebase.auth().currentUser || {}).uid;
     firebase
       .firestore()
       .collection("jobs")
-      .where("uid", "==", userId)
+      .where("uid", "==", uid)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -40,8 +37,7 @@ export default function ProfileScreen() {
   };
 
   const deleteUser = () => {
-    let userId = firebase.auth().currentUser || {};
-    userId.delete().catch((error) => {
+    uid.delete().catch((error) => {
       console.log(error);
     });
   };
@@ -79,11 +75,13 @@ export default function ProfileScreen() {
       <View style={styles.userInfo}>
         <View>
           <Text style={styles.userInfoTitle}>Email</Text>
-          <Text style={styles.userInfoData}>{userEmail}</Text>
+          <Text style={styles.userInfoData}>{email}</Text>
         </View>
         <View>
           <Text style={styles.userInfoTitle}>Registered on</Text>
-          <Text style={styles.userInfoData}>{userCreationDate}</Text>
+          <Text style={styles.userInfoData}>
+            {creationTime.split(" ").splice(1, 3).join(" ")}
+          </Text>
         </View>
         <View>
           <Text style={styles.userInfoTitle}>Current number of jobs</Text>
