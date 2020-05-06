@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     resizeMode: "contain",
     right: -90,
-    top: -415,
+    top: -380,
     width: "140%",
   },
   userInfoTitle: {
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 51,
     alignItems: "flex-start",
     justifyContent: "center",
-    marginTop: 250,
+    marginTop: 280,
   },
   userInfoData: {
     fontSize: 20,
@@ -158,5 +158,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
+    marginTop: 30,
   },
 });
