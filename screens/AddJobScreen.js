@@ -37,10 +37,6 @@ export default function AddJobScreen(props) {
     navigateToHome();
   };
 
-  const goBack = () => {
-    props.navigation.goBack();
-  };
-
   const navigateToHome = () => {
     props.navigation.navigate("Home");
   };
