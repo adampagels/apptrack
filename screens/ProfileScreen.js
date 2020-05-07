@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   View,
   Text,
@@ -8,11 +9,13 @@ import {
   Image,
 } from "react-native";
 import Header from "../components/Header";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as firebase from "firebase/app";
+import { deleteUser } from "./../redux/actions/user";
 
 export default function ProfileScreen() {
   const numberOfJobs = useSelector((state) => state.jobReducer.jobs.length);
+  const dispatch = useDispatch();
 
   const {
     email,
@@ -36,12 +39,6 @@ export default function ProfileScreen() {
       });
   };
 
-  const deleteUser = () => {
-    uid.delete().catch((error) => {
-      console.log(error);
-    });
-  };
-
   const deleteJobsOrUserAlert = (action) => {
     Alert.alert(
       "WARNING",
@@ -57,7 +54,7 @@ export default function ProfileScreen() {
             if (action === "Delete") {
               deleteAllJobs();
             } else {
-              deleteUser();
+              dispatch(deleteUser());
             }
           },
         },
