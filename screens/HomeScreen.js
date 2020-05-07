@@ -13,10 +13,11 @@ import Header from "../components/Header";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchJobs } from "./../redux/actions/job";
+import { fetchJobs, deleteJob } from "./../redux/actions/job";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function HomeScreen(props) {
+  const jobList = useSelector((state) => state.jobReducer.jobs);
   const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = firebase
@@ -27,11 +28,6 @@ export default function HomeScreen(props) {
       });
     return () => unsubscribe();
   }, []);
-  const jobList = useSelector((state) => state.jobReducer.jobs);
-
-  const deleteJob = (id) => {
-    firebase.firestore().collection("jobs").doc(id).delete();
-  };
 
   const navigateToAddJobScreen = () => {
     props.navigation.navigate("addjobModal");
@@ -106,7 +102,7 @@ export default function HomeScreen(props) {
               style={
                 data.item === jobList[0] ? styles.firstButton : styles.button
               }
-              onPress={() => deleteJob(data.item.id)}
+              onPress={() => dispatch(deleteJob(data.item.id))}
             >
               <MaterialCommunityIcons
                 name="delete-forever"

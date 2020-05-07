@@ -4,6 +4,7 @@ import * as firebase from "firebase/app";
 export const ADD_JOB = "ADD_JOB";
 export const FETCH_JOBS = "FETCH_JOBS";
 export const DELETE_ALL_JOBS = "DELETE_ALL_JOBS";
+export const DELETE_JOB = "DELETE_JOB";
 
 export const addJob = (jobInfo) => {
   return function (dispatch) {
@@ -58,6 +59,22 @@ export const deleteAllJobs = () => {
           doc.ref.delete();
         });
         dispatch({ type: "DELETE_ALL_JOBS" });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
+export const deleteJob = (id) => {
+  return function (dispatch) {
+    firebase
+      .firestore()
+      .collection("jobs")
+      .doc(id)
+      .delete()
+      .then(() => {
+        dispatch({ type: "DELETE_JOB" });
       })
       .catch((error) => {
         console.log(error);
