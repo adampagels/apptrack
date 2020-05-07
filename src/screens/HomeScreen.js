@@ -74,7 +74,7 @@ export default function HomeScreen(props) {
           renderItem={({ item }) => (
             <View style={item === jobList[0] ? styles.topOfList : styles.list}>
               <ImageBackground
-                source={require("../assets/cardBackground.png")}
+                source={require("../assets/cardBG.png")}
                 style={styles.background}
               >
                 <Text style={styles.role}>{item.data.jobTitle.trim()}</Text>

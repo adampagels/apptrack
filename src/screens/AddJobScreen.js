@@ -12,7 +12,7 @@ import {
 import "firebase/firestore";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { addJob } from "./../redux/actions/job";
+import { addJob } from "../redux/actions/job";
 import Button from "../components/Button";
 
 export default function AddJobScreen(props) {

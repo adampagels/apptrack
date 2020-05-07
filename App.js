@@ -1,12 +1,12 @@
 import React from "react";
 
 import { firebaseConfig } from "./config";
-import Navigation from "./navigation/Navigation";
+import Navigation from "./src/navigation/Navigation";
 import * as firebase from "firebase";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
-import rootReducer from "./redux/reducers/index";
+import rootReducer from "./src/redux/reducers/index";
 
 //Fix "can't find variable: Crypto" error
 import { decode, encode } from "base-64";
