@@ -12,6 +12,7 @@ import Header from "../components/Header";
 import { useSelector, useDispatch } from "react-redux";
 import * as firebase from "firebase/app";
 import { deleteUser } from "./../redux/actions/user";
+import { deleteAllJobs } from "./../redux/actions/job";
 
 export default function ProfileScreen() {
   const numberOfJobs = useSelector((state) => state.jobReducer.jobs.length);
@@ -19,25 +20,8 @@ export default function ProfileScreen() {
 
   const {
     email,
-    uid,
     metadata: { creationTime },
   } = firebase.auth().currentUser || {};
-
-  const deleteAllJobs = () => {
-    firebase
-      .firestore()
-      .collection("jobs")
-      .where("uid", "==", uid)
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          doc.ref.delete();
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const deleteJobsOrUserAlert = (action) => {
     Alert.alert(
@@ -52,7 +36,7 @@ export default function ProfileScreen() {
           text: `${action}`,
           onPress: () => {
             if (action === "Delete") {
-              deleteAllJobs();
+              dispatch(deleteAllJobs());
             } else {
               dispatch(deleteUser());
             }

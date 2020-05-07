@@ -1,7 +1,7 @@
-import { ADD_JOB, FETCH_JOBS } from "../actions/job";
+import { ADD_JOB, FETCH_JOBS, DELETE_ALL_JOBS } from "../actions/job";
 
 const initialState = {
-  jobs: []
+  jobs: [],
 };
 
 const jobReducer = (state = initialState, action) => {
@@ -10,6 +10,8 @@ const jobReducer = (state = initialState, action) => {
       return state;
     case FETCH_JOBS:
       return { ...state, jobs: action.payload };
+    case DELETE_ALL_JOBS:
+      return state;
     default:
       return state;
   }
