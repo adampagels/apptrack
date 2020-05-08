@@ -2,16 +2,18 @@ import React, { useEffect } from "react";
 
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import * as firebase from "firebase";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "./../redux/actions/user";
 
-function LoadingScreen(props) {
+export default function LoadingScreen(props) {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       props.navigation.navigate(user ? "App" : "Auth");
       if (user) {
         if (user.displayName !== null) {
-          props.setUser(user.displayName);
+          dispatch(setUser(user.displayName));
         }
       }
     });
@@ -24,22 +26,6 @@ function LoadingScreen(props) {
     </View>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setUser: (user) => {
-      dispatch(setUser(user));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoadingScreen);
 
 const styles = StyleSheet.create({
   container: {
