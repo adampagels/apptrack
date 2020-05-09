@@ -45,11 +45,11 @@ On the Profile screen the user will be shown their email, the date their account
 
 App Track is created with:
 
-* React-Native
 * CSS
+* React-Native
 * Redux
-* Redux-Redux Hooks
-* Redux-thunk
+* React-Redux Hooks
+* Redux-Thunk
 * Firebase
 * React-Native-Swipe-List-View
 * React-Navigation
